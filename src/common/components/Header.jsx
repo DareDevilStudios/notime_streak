@@ -1,6 +1,59 @@
-import React from "react";
+"use client"
+import React,{useState, useEffect} from "react";
+import supabase from '../../supabase/supabase'
+import {log} from "next/dist/server/typescript/utils";
 
 export default function Header() {
+
+    const[User, setUser] = useState("")
+
+  async function handleSignInWithGoogle(response) {
+    try {
+      const { user, session, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
+      });
+
+      if (error) {
+        console.error('Error signing in with Google:', error.message);
+        return;
+      }
+
+      console.log('User:', user);
+      console.log('Session:', session);
+    } catch (error) {
+      console.error('Error signing in with Google:', error.message);
+    }
+  }
+
+  const handleUser = async () => {
+      // Retrieve user data from Supabase
+      const {data: { user } } = await supabase
+          .auth.getUser()
+
+
+      console.log(user?.user_metadata)
+      setUser(user?.user_metadata.name)
+
+  };
+
+    const handleSignInOut = async () => {
+      await supabase.auth.signOut({ scope: 'local' })
+      setUser("")
+
+  }
+
+  useEffect(() => {
+    handleUser()
+  }, []);
+
+
+
   return (
     <div className="navbar bg-black">
       <div className="navbar-start">
@@ -41,9 +94,22 @@ export default function Header() {
         <a className="btn btn-ghost text-xl text-green-400">NoTime Streak meter</a>
       </div>
       <div className="navbar-end">
-        <button className="border border-white px-3 py-2 rounded-lg">
-          Login with Google
-        </button>
+        {User  ? (
+            <div className="flex gap-x-7">
+              <button onClick={handleSignInWithGoogle} className="border border-white px-3 py-2 rounded-lg">
+                Welcome {User}
+              </button>
+              <button onClick={handleSignInOut} className="border border-white px-3 py-2 rounded-lg">
+                Logout
+              </button>
+            </div>
+        ) :
+        (
+            <button onClick={handleSignInWithGoogle} className="border border-white px-3 py-2 rounded-lg">
+              Login with Google
+          </button>
+        )
+        }
         {/* <button className="btn btn-ghost btn-circle">
           <div className="indicator">
             <svg
