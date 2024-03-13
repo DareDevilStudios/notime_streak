@@ -1,12 +1,53 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
+import supabase from "@/supabase/supabase";
+import { fetcher } from "@/utils/supabaseAuthCheck";
+import Loading from "@/common/components/Loading";
+import { useRouter } from "next/navigation";
 
 export default function page() {
-  return (
+  const [User, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+
+  // const handleUser = async () => {
+  //   // Retrieve user data from Supabase
+  //   const {
+  //     data: { user },
+  //   } = await supabase.auth.getUser();
+
+  //   console.log(user?.user_metadata);
+  //   setUser(user?.user_metadata.name);
+  // };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    fetcher().then((user) => {
+      console.log(user?.user?.user_metadata);
+      if (!user?.user?.user_metadata) {
+        return router.push("/");
+      }
+      setUser(user?.user?.user_metadata);
+    });
+  }, []);
+
+  return loading ? (
+    <Loading />
+  ) : (
     <div class="flex justify-center items-center w-full bg-black">
       <div class="relative sm:p-4 w-full max-w-2xl h-full md:h-auto">
         <div class="relative p-4 rounded-lg shadow bg-black sm:p-5">
           <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-            <h3 class="text-lg font-semibold text-white">Welcome Streaker</h3>
+            <h3 class="text-lg font-semibold text-white">
+              Welcome{" "}
+              {!User.full_name ? (
+                <span>Streaker....</span>
+              ) : (
+                <span>{User.full_name}</span>
+              )}
+            </h3>
           </div>
           <form method="POST" action="#">
             <div class="flex gap-4 mb-4 flex-col">
@@ -113,7 +154,8 @@ export default function page() {
                   for="name"
                   class="block mb-2 text-sm font-medium text-green-500 border-gray-300"
                 >
-                  Have you Learned some thing new. then write a blog about it ( 5 points )
+                  Have you Learned some thing new. then write a blog about it (
+                  5 points )
                 </label>
 
                 <div className="">
@@ -121,7 +163,8 @@ export default function page() {
                     for="name"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Blog link ( you can write blogs in medium, hashnode, dev.to etc.)
+                    Blog link ( you can write blogs in medium, hashnode, dev.to
+                    etc.)
                   </label>
                   <input
                     type="text"
