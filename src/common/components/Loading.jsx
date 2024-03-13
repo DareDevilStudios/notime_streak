@@ -1,7 +1,8 @@
-export default function Loading() {
+export default function Loading({user}) {
   // You can add any UI inside Loading, including a Skeleton.
   return (
     <div className="w-full h-screen flex justify-center items-center text-3xl">
+        
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

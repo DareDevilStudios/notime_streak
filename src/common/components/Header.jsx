@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import supabase from "../../supabase/supabase";
 import Link from "next/link";
-import { fetcher } from "@/utils/supabaseAuthCheck";
+import { fetcher, handleSignInWithGoogle } from "@/utils/supabaseAuthCheck";
 import Loading from "./Loading";
 import { useRouter } from "next/navigation";
 
@@ -11,29 +11,7 @@ export default function Header() {
   const [loading, setloading] = useState(true);
   const router = useRouter();
 
-  async function handleSignInWithGoogle(response) {
-    try {
-      const { user, session, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          queryParams: {
-            access_type: "offline",
-            prompt: "consent",
-          },
-        },
-      });
-
-      if (error) {
-        console.error("Error signing in with Google:", error.message);
-        return;
-      }
-
-      console.log("User:", user);
-      console.log("Session:", session);
-    } catch (error) {
-      console.error("Error signing in with Google:", error.message);
-    }
-  }
+  
 
   // const handleUser = async () => {
   //   // Retrieve user data from Supabase
@@ -48,6 +26,7 @@ export default function Header() {
   const handleSignInOut = async () => {
     await supabase.auth.signOut({ scope: "local" });
     setUser("");
+    router.push("/");
   };
 
   useEffect(() => {

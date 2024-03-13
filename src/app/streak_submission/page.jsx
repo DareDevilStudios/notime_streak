@@ -34,7 +34,7 @@ export default function page() {
   }, []);
 
   return loading ? (
-    <Loading />
+    <Loading  />
   ) : (
     <div class="flex justify-center items-center w-full bg-black">
       <div class="relative sm:p-4 w-full max-w-2xl h-full md:h-auto">

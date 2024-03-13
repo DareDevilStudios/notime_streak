@@ -1,10 +1,10 @@
+import supabase from "@/supabase/supabase";
 import { createContext, useEffect, useState } from "react";
-import supabaseClient from "./database/supabase";
 
 const UserContext = createContext();
 
 const getUser = async () => {
-  return await supabaseClient.auth.getUser();
+  return await supabase.auth.getUser();
 };
 
 const AuthProvider = ({ children }) => {
