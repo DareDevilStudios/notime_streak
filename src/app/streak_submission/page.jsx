@@ -1,6 +1,9 @@
+"use client"
 import React from "react";
+import requireAuth from '../middleware/authMiddleware';
 
-export default function page() {
+
+function page() {
   return (
     <div class="flex justify-center items-center w-full">
       <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
@@ -137,3 +140,5 @@ export default function page() {
     </div>
   );
 }
+
+export default requireAuth(page);

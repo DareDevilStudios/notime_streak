@@ -19,13 +19,12 @@ export default function Header() {
         },
       });
 
+
       if (error) {
         console.error('Error signing in with Google:', error.message);
-        return;
+        return null;
       }
 
-      console.log('User:', user);
-      console.log('Session:', session);
     } catch (error) {
       console.error('Error signing in with Google:', error.message);
     }
