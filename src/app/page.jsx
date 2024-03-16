@@ -49,7 +49,7 @@ export default function Home() {
               </svg>
             </Link>
           ) : (
-            <div onClick={handleSignInWithGoogle} class="group inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
+            <div onClick={handleSignInWithGoogle} class="group inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900 hover:cursor-pointer">
               Login to submit
               <svg
                 className="ml-2 -mr-1 w-5 h-5 group-hover:translate-x-2 duration-300"

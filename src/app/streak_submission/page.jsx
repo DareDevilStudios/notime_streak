@@ -10,16 +10,6 @@ export default function page() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // const handleUser = async () => {
-  //   // Retrieve user data from Supabase
-  //   const {
-  //     data: { user },
-  //   } = await supabase.auth.getUser();
-
-  //   console.log(user?.user_metadata);
-  //   setUser(user?.user_metadata.name);
-  // };
-
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);

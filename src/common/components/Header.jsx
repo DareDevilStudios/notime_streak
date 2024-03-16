@@ -11,8 +11,6 @@ export default function Header() {
   const [loading, setloading] = useState(true);
   const router = useRouter();
 
-  
-
   // const handleUser = async () => {
   //   // Retrieve user data from Supabase
   //   const {
@@ -34,9 +32,8 @@ export default function Header() {
       setloading(false);
     }, 3000);
     fetcher().then((user) => {
-      if(!user.user)
-      {
-        return router.push("/")
+      if (!user.user) {
+        return router.push("/");
       }
       // console.log(user.user.user_metadata);
       setUser(user?.user?.user_metadata.name);
@@ -70,9 +67,7 @@ export default function Header() {
             <li>
               <Link href={"/"}>Homepage</Link>
             </li>
-            <li>
-              <Link href={"/profile"}>profile</Link>
-            </li>
+            <li>{User && <Link href={"/profile"}>profile</Link>}</li>
             <li>
               <Link href={"/about"}>About</Link>
             </li>

@@ -1,9 +1,13 @@
+"use client";
+
+import Loading from "@/common/components/Loading";
 import Points_steper from "@/common/components/Points_steper";
 import StreakPattern from "@/common/components/StreakPattern";
-import React from "react";
+import { fetcher } from "@/utils/supabaseAuthCheck";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function page() {
-
   const levels = [
     { title: "Novice", completed: false, points: 100 },
     { title: "Apprentice", completed: false, points: 300 },
@@ -16,8 +20,27 @@ export default function page() {
     { title: "Master", completed: false, points: 1700 },
     { title: "Guru", completed: false, points: 1900 },
   ];
+  const [User, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  return (
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    fetcher().then((user) => {
+      console.log(user?.user?.user_metadata);
+      if (!user?.user?.user_metadata) {
+        return router.push("/");
+      }
+      setUser(user?.user?.user_metadata);
+    });
+  }, []);
+
+  return loading ? (
+    <Loading />
+  ) : 
+   (
     <div>
       <section class="flex font-medium items-center justify-center lg:px-12">
         <section class="w-full rounded-2xl px-8 py-6 shadow-lg">
@@ -104,7 +127,6 @@ export default function page() {
               <div className="stat-value text-primary my-2">100</div>
               {/* <div className="stat-desc">21% more than last month</div> */}
             </div>
-            
           </div>
           <StreakPattern />
           <Points_steper levels={levels} />
