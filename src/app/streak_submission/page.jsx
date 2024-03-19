@@ -180,5 +180,3 @@ export default function page() {
     </div>
   );
 }
-
-export default requireAuth(page);
