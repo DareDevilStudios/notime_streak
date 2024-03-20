@@ -19,7 +19,7 @@ export async function POST(_req) {
         const userEmail = data.userEmail;
         const eventObject = data.events;
 
-        // Find the user document based on userEmail
+       
         let user = await userModel.findOne({ userEmail });
 
 
@@ -27,18 +27,19 @@ export async function POST(_req) {
         const mark = numberOfFields * 5;
 
         if (!user) {
-            // If user not found, create a new user
+            
             user = new userModel({
                 userEmail,
-                events: [] // Initialize events as an empty array
+                events: [] 
             });
         } else if (!user.events) {
-            // If events array is not defined, initialize it
+           
             user.events = [];
         }
 
-        // Push the event object to the events array
-        eventObject.mark=mark
+       
+        eventObject.mark=mark-5
+        eventObject.timestamp = new Date();
         user.events.push(eventObject);
         await user.save();
 

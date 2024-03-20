@@ -19,7 +19,7 @@ export async function POST(_req) {
         const userData = new userModel(data);
         await userData.save();
 
-        console.log("UserData:", userData); // Log userData for debugging
+        console.log("UserData:", userData); 
 
         return NextResponse.json({ message: 'User Registered Successfully', userData });
 
